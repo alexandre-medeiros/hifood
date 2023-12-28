@@ -1,0 +1,16 @@
+### STS ###
+.classpath
+.project
+.settings
+.metadata
+.sts4-cache/
+
+### Maven ###
+target/
+.mvn
+
+### VS Code ###
+.vscode/
+
+### Intellij ###
+.idea
