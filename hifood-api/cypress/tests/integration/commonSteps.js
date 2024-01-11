@@ -1,5 +1,5 @@
 const { Given, Then } = require("@badeball/cypress-cucumber-preprocessor");
-//const { owner } = require("../../support/database/model/Owner");
+const { mapper } = require("../../support/objectMapperSelector");
 
 let response = null;
 let jsonData = null;
@@ -26,7 +26,11 @@ Then("should return all {string}", (tableName) => {
   const data = response.body;
   const query = `SELECT * FROM ${tableName}`;
   cy.task("select", { query }).then((result) => {
-    expect(data).to.deep.equal(result);
+    const processor = mapper[tableName];
+    const listDto = processor.dto.toListDto(data);
+    const Listmodel = processor.model.toListDomainModel(result);
+
+    expect(Listmodel).to.deep.equal(listDto);
   });
 });
 
@@ -76,7 +80,11 @@ function compareResponseWithDatabaseRegistry(response, tableName, id) {
   const params = [id];
   cy.task("select", { query, params }).then((result) => {
     if (result.length > 0) {
-      expect(response).to.deep.equal(result[0]);
+      const processor = mapper[tableName];
+      const model = processor.model.toDomainModel(result[0]);
+      const dto = processor.dto.toDto(response);
+
+      expect(model).to.deep.equal(dto);
     } else {
       throw new Error(`No data found in the database for ID: ${id}`);
     }

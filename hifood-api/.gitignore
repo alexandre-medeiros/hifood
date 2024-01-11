@@ -19,6 +19,7 @@ target/
 export.txt
 .env
 .factorypath
+test.js
 
 ### node ###
 node_modules/

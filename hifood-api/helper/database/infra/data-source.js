@@ -4,15 +4,21 @@ const credencials = {
   host: process.env.DB_HOST,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DB,
+  database: process.env.DB_NAME,
 };
 
-const connection = mysql.createPool(credencials);
-
 async function query(values) {
+  const connection = mysql.createPool(credencials);
   const { query, params } = values;
-  const [rows] = await connection.execute(query, params);
-  return rows;
+
+  try {
+    const [rows] = await connection.execute(query, params);
+    return rows;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    connection.end();
+  }
 }
 
 async function insert(queryString, data) {
