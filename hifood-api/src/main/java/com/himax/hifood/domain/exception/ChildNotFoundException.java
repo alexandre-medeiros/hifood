@@ -3,10 +3,10 @@ package com.himax.hifood.domain.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class EntityNotFoundException extends RuntimeException{
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class ChildNotFoundException extends RuntimeException{
 
-    public EntityNotFoundException(String message) {
+    public ChildNotFoundException(String message) {
         super(message);
     }
 }

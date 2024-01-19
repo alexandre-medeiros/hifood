@@ -49,15 +49,4 @@ class StateRegistryServiceTest {
     void find() {
     }
 
-    @Test
-    void create() {
-    }
-
-    @Test
-    void update() {
-    }
-
-    @Test
-    void remove() {
-    }
 }

@@ -1,4 +1,4 @@
-package com.himax.hifood.api.controlers;
+package com.himax.hifood.api.controllers;
 
 import com.himax.hifood.domain.model.Restaurant;
 import com.himax.hifood.domain.service.RestaurantRegistryService;

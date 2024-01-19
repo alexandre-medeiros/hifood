@@ -1,23 +1,31 @@
 package com.himax.hifood.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Entity
 public class Restaurant {
 
@@ -31,7 +39,27 @@ public class Restaurant {
 	private BigDecimal deliveryFees;
 
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Kitchen kitchen;
+
+	@ManyToMany
+	@ToString.Exclude
+	private List<PaymentWay> paymentWay = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "restaurant")
+	@ToString.Exclude
+	private List<Product> products = new ArrayList<>();
+
+	@JsonIgnore
+	@Embedded
+	private Address address;
+
+	@CreationTimestamp
+	private OffsetDateTime createdAt;
+
+	@UpdateTimestamp
+	private OffsetDateTime updatedAt;
 
 	@Override
 	public boolean equals(Object o) {

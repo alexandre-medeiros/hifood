@@ -7,5 +7,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 public interface CustomJpaRepository<T,ID> extends JpaRepository<T,ID> {
     T findOrFail(ID id);
 
+    T findChildOrFail(ID id);
+
     void deleteOrFail(ID id);
 }

@@ -1,7 +1,7 @@
 package com.himax.hifood.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
@@ -9,12 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Entity
 public class Kitchen {
 
@@ -22,6 +24,11 @@ public class Kitchen {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "kitchen")
+	@ToString.Exclude
+	private List<Restaurant> restaurants = new ArrayList<>();
 
 	@Override
 	public boolean equals(Object o) {
