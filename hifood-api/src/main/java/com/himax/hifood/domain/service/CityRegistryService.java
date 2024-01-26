@@ -24,14 +24,13 @@ public class CityRegistryService {
 
     @Transactional
     public City create(City city){
-        stateService.findChild(city.getState().getId());
+        stateService.findChild(city.getStateId());
         return cityRepository.save(city);
     }
 
     @Transactional
     public City update(City city, Long id){
         find(id);
-        stateService.findChild(city.getState().getId());
         return create(city);
     }
     @Transactional

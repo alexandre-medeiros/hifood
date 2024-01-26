@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class RestaurantRegistryService {
     private RestaurantRepository restaurantRepository;
-
+    private KitchenRegistryService kitchenService;
 
     public List<Restaurant> findAll(){
         return restaurantRepository.findAll();
@@ -23,6 +23,7 @@ public class RestaurantRegistryService {
 
     @Transactional
     public Restaurant create(Restaurant restaurant){
+        kitchenService.find(restaurant.getKitchenId());
         return restaurantRepository.save(restaurant);
     }
 

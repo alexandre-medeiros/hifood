@@ -27,7 +27,22 @@ public class StateMotherTest {
 
         return Arrays.asList(s1,s2,s3,s4,s5);
     }
+
+    public static State getExistingStateWithId(Long id){
+        return new State(id, "Existing State With id "+id);
+    }
+    public static State getNoExistentStateWithId(Long id){
+        return new State(id, "No Existent State With id "+id);
+    }
+
     public static void deepComparation(List<State> expected, List<State> actual) {
+        Gson gson = new Gson();
+        String expectedJson =  gson.toJson(expected);
+        String actualJson =  gson.toJson(actual);
+        assertEquals(expectedJson, actualJson);
+    }
+
+    public static void deepComparation(State expected, State actual) {
         Gson gson = new Gson();
         String expectedJson =  gson.toJson(expected);
         String actualJson =  gson.toJson(actual);

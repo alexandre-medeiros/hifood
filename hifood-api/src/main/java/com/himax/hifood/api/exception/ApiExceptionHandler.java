@@ -1,7 +1,6 @@
 package com.himax.hifood.api.exception;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private HttpServletRequest servletRequest;
     private ErrorHandler handler;
-    private MessageSource messageSource;
 
     /*
      * This method customize the response body (problemDetail) following RFC 9457 for exceptions
@@ -32,7 +30,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ProblemDetail problemDetail = handler.handleException(ex, status, servletRequest, messageSource);
+        ProblemDetail problemDetail = handler.handleException(ex, status, servletRequest);
         return super.handleExceptionInternal(ex, problemDetail, headers, status, request);
     }
 
@@ -44,9 +42,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ProblemDetail problemDetail = handler.handleException(ex, status, servletRequest, messageSource);
-        problemDetail.setTitle("Invalid body");
-        problemDetail.setDetail("Invalid request body format");
+        ProblemDetail problemDetail = handler.handleException(ex, status, servletRequest);
         return super.handleExceptionInternal(ex, problemDetail, headers, status, request);
     }
 
@@ -57,7 +53,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleBusinessException(Exception ex, WebRequest request) {
         HttpStatus status = handler.getHttpStatus(ex);
-        ProblemDetail problemDetail = handler.handleException(ex, status, servletRequest, messageSource);
+        ProblemDetail problemDetail = handler.handleException(ex, status, servletRequest);
         return super.handleExceptionInternal(ex, problemDetail, HttpHeaders.EMPTY, status, request);
     }
 }

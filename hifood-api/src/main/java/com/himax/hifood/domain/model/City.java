@@ -25,6 +25,10 @@ public class City {
 	@ManyToOne
 	private State state;
 
+	public Long getStateId(){
+		return this.getState().getId();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

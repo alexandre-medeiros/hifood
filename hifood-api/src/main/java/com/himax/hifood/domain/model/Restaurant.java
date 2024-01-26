@@ -61,6 +61,10 @@ public class Restaurant {
 	@UpdateTimestamp
 	private OffsetDateTime updatedAt;
 
+	public Long getKitchenId(){
+		return this.getKitchen().getId();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

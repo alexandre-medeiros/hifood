@@ -1,6 +1,7 @@
 package com.himax.hifood.api.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonMerge;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -28,6 +29,7 @@ public class ProblemDetail {
     private URI instance;
 
     @Nullable
+    @JsonMerge
     private Map<String, Object> properties;
 
     protected ProblemDetail(int rawStatusCode) {
