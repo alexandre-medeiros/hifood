@@ -131,32 +131,15 @@ class StateRegistryServiceTest {
     void Given_a_existing_State_When_updated_Then_return_updated_state(){
         //Arrange
         State state = StateMotherTest.getExistingStateWithId(stateId);
-        when(stateRepository.findOrFail(stateId)).thenReturn(state);
         when(stateRepository.save(state)).thenReturn(state);
 
         //Act
-        State result = stateRegistryService.update(state,stateId);
+        State result = stateRegistryService.update(state);
 
         //Assert
         assertNotNull(result);
         StateMotherTest.deepComparation(state, result);
         verify(stateRepository, times(1)).save(state);
-        verify(stateRepository, times(1)).findOrFail(stateId);
-    }
-
-    @Test
-    void Given_a_nonexistent_stateId_and_State_When_update_Then_throw_EntityNotFoundException(){
-        //Arrange
-        State noExistentState = StateMotherTest.getNoExistentStateWithId(noExistentStateId);
-        when(stateRepository.findOrFail(noExistentStateId)).thenThrow(EntityNotFoundException.class);
-
-        //Act
-        EntityNotFoundException e = catchThrowableOfType(() -> stateRegistryService.update(noExistentState, noExistentStateId), EntityNotFoundException.class);
-
-        //Assert
-        assertNotNull(e);
-        verify(stateRepository, times(1)).findOrFail(noExistentStateId);
-        verify(stateRepository, never()).save(noExistentState);
     }
 
     @Test

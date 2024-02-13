@@ -6,9 +6,10 @@ import com.himax.hifood.domain.model.Kitchen;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface KitchenMapper {
     KitchenOutputDto toDto(Kitchen domain);
     Kitchen toDomain(KitchenInputDto dto);

@@ -1,9 +1,9 @@
 package com.himax.hifood.api.controllers;
 
+import com.himax.hifood.domain.service.RestaurantRegistryService;
 import com.himax.hifood.api.mapper.RestaurantMapper;
 import com.himax.hifood.api.model.restaurant.RestaurantInputDto;
 import com.himax.hifood.api.model.restaurant.RestaurantOutputDto;
-import com.himax.hifood.domain.service.RestaurantRegistryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

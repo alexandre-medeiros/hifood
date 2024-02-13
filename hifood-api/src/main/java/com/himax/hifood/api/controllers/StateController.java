@@ -3,6 +3,7 @@ package com.himax.hifood.api.controllers;
 import com.himax.hifood.api.mapper.StateMapper;
 import com.himax.hifood.api.model.state.StateInputDto;
 import com.himax.hifood.api.model.state.StateOutputDto;
+import com.himax.hifood.domain.model.State;
 import com.himax.hifood.domain.service.StateRegistryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,9 @@ public class StateController {
 
     @PutMapping("{id}")
     public StateOutputDto update(@RequestBody StateInputDto dto, @PathVariable Long id){
-        return mapper.toDto( stateService.update(mapper.toDomain(dto), id));
+        State existing = stateService.find(id);
+        State updated = mapper.toDomain(dto);
+        return mapper.toDto( stateService.update(mapper.toUpdate(updated, existing)));
     }
 
     @DeleteMapping("{id}")

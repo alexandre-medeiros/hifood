@@ -3,6 +3,7 @@ package com.himax.hifood.api.controllers;
 import com.himax.hifood.api.mapper.CityMapper;
 import com.himax.hifood.api.model.city.CityInputDto;
 import com.himax.hifood.api.model.city.CityOutputDto;
+import com.himax.hifood.domain.model.City;
 import com.himax.hifood.domain.service.CityRegistryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,10 @@ public class CityController {
 
     @PutMapping("{id}")
     public CityOutputDto update(@RequestBody CityInputDto dto, @PathVariable Long id){
-        return mapper.toDto( cityService.update(mapper.toDomain(dto), id));
+        City existing = cityService.find(id);
+        City updated = mapper.toDomain(dto);
+        City city = mapper.toUpdate(updated, existing);
+        return mapper.toDto(cityService.update(city));
     }
 
     @DeleteMapping("{id}")

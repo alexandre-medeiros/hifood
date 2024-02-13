@@ -30,8 +30,7 @@ public class StateRegistryService {
     }
 
     @Transactional
-    public State update(State state, Long id){
-        find(id);
+    public State update(State state){
         return create(state);
     }
     @Transactional

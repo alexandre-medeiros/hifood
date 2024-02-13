@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -29,8 +30,33 @@ public class ProblemDetail {
     private URI instance;
 
     @Nullable
+    public OffsetDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(@Nullable OffsetDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    @Nullable
+    private OffsetDateTime timestamp;
+
+    @Nullable
     @JsonMerge
     private Map<String, Object> properties;
+
+    @Nullable
+    public Map<String, String> getFields() {
+        return fields;
+    }
+
+    public void setFields(@Nullable Map<String, String> fields) {
+        this.fields = fields;
+    }
+
+    @Nullable
+    @JsonMerge
+    private Map<String, String> fields;
 
     protected ProblemDetail(int rawStatusCode) {
         this.status = rawStatusCode;

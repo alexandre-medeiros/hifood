@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 public class ErrorHandler {
 
     public static final String FIELDS = "fields";
-    public static final String INVALID_PARAMS = "invalid params";
-    public static final String INVALID_BODY = "Invalid body";
+    public static final String INVALID_PARAMS = "Invalid Params";
+    public static final String INVALID_BODY = "Invalid Body";
 
     private MessageSource messageSource;
 
@@ -41,12 +41,18 @@ public class ErrorHandler {
 
     private ProblemDetail setupProblemDetail(Exception ex, HttpStatus status,HttpServletRequest servletRequest) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(status);
-        problemDetail.setProperty("timestamp", OffsetDateTime.now());
+        //problemDetail.setProperty("timestamp", OffsetDateTime.now());
         setTitleAndDetail(problemDetail, ex, status);
 
+        // TODO será retirado quando migrar versão do spring
+        problemDetail.setTimestamp(OffsetDateTime.now());
+
         if(hasFields(ex)){
-            problemDetail.setProperty(FIELDS, handleFields(ex));
+           // problemDetail.setProperty(FIELDS, handleFields(ex));
             problemDetail.setDetail(INVALID_PARAMS);
+
+            // TODO será retirado quando migrar versão do spring
+            problemDetail.setFields(handleFields(ex));
         }
 
         /*

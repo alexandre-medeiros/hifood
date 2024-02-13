@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
-@Service
 @AllArgsConstructor
+@Service
 public class CityRegistryService {
-
     private CityRepository cityRepository;
     private StateRegistryService stateService;
 
@@ -29,8 +28,7 @@ public class CityRegistryService {
     }
 
     @Transactional
-    public City update(City city, Long id){
-        find(id);
+    public City update(City city){
         return create(city);
     }
     @Transactional
