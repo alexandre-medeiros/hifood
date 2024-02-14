@@ -3,6 +3,7 @@ package com.himax.hifood.api.controllers;
 import com.himax.hifood.api.model.kitchen.KitchenInputDto;
 import com.himax.hifood.api.mapper.KitchenMapper;
 import com.himax.hifood.api.model.kitchen.KitchenOutputDto;
+import com.himax.hifood.domain.model.Kitchen;
 import com.himax.hifood.domain.service.KitchenRegistryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,11 @@ public class KitchenController {
 
     @PutMapping("{id}")
     public KitchenOutputDto update(@RequestBody KitchenInputDto dto, @PathVariable Long id){
-        return mapper.toDto( kitchenService.update(mapper.toDomain(dto), id));
+        Kitchen existing = kitchenService.find(id);
+        Kitchen updated = mapper.toDomain(dto);
+        Kitchen kitchen = mapper.toUpdate(updated, existing);
+
+        return mapper.toDto( kitchenService.update(kitchen));
     }
 
     @DeleteMapping("{id}")

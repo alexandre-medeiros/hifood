@@ -1,4 +1,4 @@
-package com.himax.hifood.core.validation;
+package com.himax.hifood.core.validation.file;
 
 public @interface FileContentType {
 

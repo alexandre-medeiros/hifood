@@ -1,7 +1,7 @@
 package com.himax.hifood.api.model.product;
 
-import com.himax.hifood.core.validation.FileContentType;
-import com.himax.hifood.core.validation.FileSize;
+import com.himax.hifood.core.validation.file.FileContentType;
+import com.himax.hifood.core.validation.file.FileSize;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.MediaType;

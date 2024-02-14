@@ -39,7 +39,7 @@ Feature: City endpoint tests
     Then the "city" is registred with success
     And should return status code "201"
 
-  Scenario: CREATE FAIL: POST to /cities fail because state do not exist
+  Scenario: CREATE FAIL: POST to /cities fail because state does not exist
     Given I hit "POST" to "/cities" with data:
       """
       {
@@ -53,6 +53,23 @@ Feature: City endpoint tests
     And should return error title message "Bad Request"
     And should return error status at body "400"
     And should return error detail message "No State entity with id 999 exists!"
+
+  Scenario: CREATE FAIL: POST to /cities fail because field name is too small
+    Given I hit "POST" to "/cities" with data:
+      """
+      {
+        "name": "Ve",
+        "state": {
+          "id": 1
+        }
+      }
+      """
+    Then should return status code "400"
+    And should return error title message "Bad Request"
+    And should return error status at body "400"
+    And should return error detail message "Invalid Params"
+    And should return error message "name" to field "Field name must be present and must have size between 3 and 80"
+
 
   Scenario: CREATE FAIL: POST to /cities fail because field name is too large
     Given I hit "POST" to "/cities" with data:
@@ -68,48 +85,64 @@ Feature: City endpoint tests
     And should return error title message "Bad Request"
     And should return error status at body "400"
     And should return error detail message "Invalid Params"
-    And should return error message "name" to field "Field name must has size between 3 and 80"
+    And should return error message "name" to field "Field name must be present and must have size between 3 and 80"
 
   Scenario: CREATE FAIL: POST to /cities fail because field name should not be null
     Given I hit "POST" to "/cities" with data:
       """
-    {
-      "name": null,
-      "state": {
-        "id": 1
+      {
+        "name": null,
+        "state": {
+          "id": 1
+        }
       }
-    }
       """
     Then should return status code "400"
     And should return error title message "Bad Request"
     And should return error status at body "400"
     And should return error detail message "Invalid Params"
-    And should return error message "name" to field "Field name do not be empty"
+    And should return error message "name" to field "Field name must be present and must have size between 3 and 80"
 
-  Scenario: CREATE FAIL: POST to /cities fail because field name should exist in json
+  Scenario: CREATE FAIL: POST to /cities fail because field name should exist
     Given I hit "POST" to "/cities" with data:
       """
-    {
-      "state": {
-        "id": 1
+      {
+        "state": {
+          "id": 1
+        }
       }
-    }
       """
     Then should return status code "400"
     And should return error title message "Bad Request"
     And should return error status at body "400"
     And should return error detail message "Invalid Params"
-    And should return error message "name" to field "Field name do not be empty"
+    And should return error message "name" to field "Field name must be present and must have size between 3 and 80"
+
+  Scenario: CREATE FAIL: POST to /cities fail because an unrecognized field exist
+    Given I hit "POST" to "/cities" with data:
+      """
+      {
+        "description": "description",
+        "name": "Name of city create fail",
+        "state": {
+          "id": 1
+        }
+      }
+      """
+    Then should return status code "400"
+    And should return error title message "Invalid Body"
+    And should return error status at body "400"
+    And should return error detail message "Unrecognized field 'description' "
 
   Scenario: UPDATE: PUT to /cities/1 should update the City with id=1
     Given I hit "PUT" to "/cities/1" with data:
       """
-    {
-      "name": "Uberlândia Name Updated",
-      "state": {
-        "id": 1
+      {
+        "name": "Uberlândia Name Updated",
+        "state": {
+          "id": 1
+        }
       }
-    }
       """
     Then the "city" with id "1" is updated with success
     And should return status code "200"
@@ -117,12 +150,12 @@ Feature: City endpoint tests
   Scenario: UPDATE FAIL: PUT to /cities/999 should return not found City
     Given I hit "PUT" to <url> with data:
       """
-    {
-      "name": "Name Unexistent City",
-      "state": {
-        "id": 1
+      {
+        "name": "Name Unexistent City",
+        "state": {
+          "id": 1
+        }
       }
-    }
       """
     Then there is no "city" in database with same id <id>
     And should return status code "404"
@@ -138,12 +171,12 @@ Feature: City endpoint tests
     Given there is a "city" with id <id>
     When I hit "PUT" to <url> with data:
       """
-    {
-      "name": "New Updated Expected",
-      "state": {
-        "id": 999
+      {
+        "name": "New Updated Expected",
+        "state": {
+          "id": 999
+        }
       }
-    }
       """
     Then the "city" with id <id> was not updated
     And should return status code "400"
@@ -158,12 +191,12 @@ Feature: City endpoint tests
   Scenario: REMOVE: DELETE to /cities/{id} should remove deleteable City in database
     Given I hit "POST" to "/cities" with data:
       """
-    {
-      "name": "Deleteable City",
-      "state": {
-        "id": 1
+      {
+        "name": "Deleteable City",
+        "state": {
+          "id": 1
+        }
       }
-    }
       """
     Then the "city" is registred with success
     Given I hit DELETE to endpoint <url> with a deleteable id

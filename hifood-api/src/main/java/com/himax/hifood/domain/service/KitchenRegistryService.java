@@ -26,8 +26,7 @@ public class KitchenRegistryService {
     }
 
     @Transactional
-    public Kitchen update(Kitchen kitchen, Long id){
-        find(id);
+    public Kitchen update(Kitchen kitchen){
         return create(kitchen);
     }
 
