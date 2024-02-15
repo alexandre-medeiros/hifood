@@ -37,11 +37,14 @@ services:
     ports:
       - "$SERVER_PORT:8080"
     environment:
+      SERVER_PORT: $SERVER_PORT
       DB_HOST: $DB_HOST
+      DB_NAME: $DB_NAME
+      DB_PORT: $DB_PORT
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
       POSTGRES_USER: $POSTGRES_USER
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD      
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       SPRING_PROFILES_ACTIVE: $SPRING_PROFILES_ACTIVE
     networks:
       - hifood-network
@@ -51,18 +54,20 @@ services:
   hifood-integration-test:
     image: cypress/browsers:node-18.16.1-chrome-114.0.5735.133-1-ff-114.0.2-edge-114.0.1823.51-1
     profiles:
-      - test    
+      - test
     container_name: hifood-integration-test
     command:
       ["/bin/sh", "-c", "./wait-for-it.sh hifood-api:8080 -t 60 && npm install && npx cypress install && npm test"]
     environment:
+      DB_HOST: $DB_HOST
+      DB_NAME: $DB_NAME
+      DB_PORT: $DB_PORT
       HOST_API: hifood-api
       SERVER_PORT: $SERVER_PORT
-      DB_HOST: $DB_SERVICE_CONTAINER
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
       POSTGRES_USER: $POSTGRES_USER
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD      
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       SPRING_PROFILES_ACTIVE: $SPRING_PROFILES_ACTIVE
     volumes:
       - $PWD:$PWD
