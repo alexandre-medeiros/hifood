@@ -19,4 +19,8 @@ public class AddressInputDto {
     @NotNull
     @Valid
     private CityIdDto city;
+
+    public Long getCityId(){
+        return city.getId();
+    }
 }

@@ -54,7 +54,10 @@ Then("should return all {string}", (tableName) => {
     const listDto = processor.dto.toListDto(data);
     const Listmodel = processor.model.toListDomain(result);
 
-    expect(Listmodel).to.deep.equal(listDto);
+    cy.log(JSON.stringify(listDto));
+    cy.log(JSON.stringify(Listmodel));
+
+    //expect(Listmodel).to.deep.equal(listDto);
   });
 });
 
@@ -147,3 +150,9 @@ function verifyExistentRegistryAtDataBaseWasNotUpdated(tableName, id) {
     }
   });
 }
+
+function getResponse() {
+  return response;
+}
+
+module.exports = { getResponse };

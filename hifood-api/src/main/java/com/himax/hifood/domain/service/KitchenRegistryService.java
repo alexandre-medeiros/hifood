@@ -20,6 +20,10 @@ public class KitchenRegistryService {
         return kitchenRepository.findOrFail(id);
     }
 
+    public  Kitchen findChild(Long id){
+        return kitchenRepository.findChildOrFail(id);
+    }
+
     @Transactional
     public Kitchen create(Kitchen kitchen){
         return kitchenRepository.save(kitchen);
@@ -32,7 +36,6 @@ public class KitchenRegistryService {
 
     @Transactional
     public void remove(Long id){
-        find(id);
         kitchenRepository.deleteOrFail(id);
     }
 }

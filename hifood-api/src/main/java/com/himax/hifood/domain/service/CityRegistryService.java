@@ -21,9 +21,10 @@ public class CityRegistryService {
         return cityRepository.findOrFail(id);
     }
 
+    public City findChildOrFail(Long id){ return cityRepository.findChildOrFail(id); }
+
     @Transactional
     public City create(City city){
-        stateService.findChild(city.getStateId());
         return cityRepository.save(city);
     }
 
@@ -33,7 +34,6 @@ public class CityRegistryService {
     }
     @Transactional
     public void remove(Long id){
-        find(id);
         cityRepository.deleteOrFail(id);
     }
 }

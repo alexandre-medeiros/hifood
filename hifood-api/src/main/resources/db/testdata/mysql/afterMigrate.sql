@@ -34,6 +34,7 @@ insert into restaurant (id, name, delivery_fees, kitchen_id, created_at, updated
 insert into restaurant (id, name, delivery_fees, kitchen_id, created_at, updated_at, address_city_id, address_zip_code, address_street, address_number) values (5, 'Mexican Fiesta', 10, 2, '2024-01-12 17:15:00', '2024-01-13 19:30:00', 4, '38404-004', 'Calle Mexicana', '234');
 insert into restaurant (id, name, delivery_fees, kitchen_id, created_at, updated_at, address_city_id, address_zip_code, address_street, address_number) values (6, 'Mediterranean Flavors', 12, 2, '2024-01-12 18:30:00', '2024-01-13 20:45:00', 2, '38405-005', 'Rua Mediterranea', '567');
 insert into restaurant (id, name, delivery_fees, kitchen_id, created_at, updated_at, address_city_id, address_zip_code, address_street, address_number) values (7, 'Vegetarian Bliss', 8, 1, '2024-01-12 19:45:00', '2024-01-13 22:00:00', 1, '38406-006', 'Avenida Veggie', '890');
+insert into restaurant (id, name, delivery_fees, kitchen_id, created_at, updated_at) values (8, 'Vegetarian Bliss', 8, 1, '2024-01-12 19:45:00', '2024-01-13 22:00:00');
 
 -- Insert data into payment_way table
 insert into payment_way (id, description) values (1, 'Cartão de crédito');

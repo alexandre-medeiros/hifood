@@ -1,5 +1,8 @@
 package com.himax.hifood.api.controllers;
 
+import com.himax.hifood.domain.model.Restaurant;
+import com.himax.hifood.domain.service.CityRegistryService;
+import com.himax.hifood.domain.service.KitchenRegistryService;
 import com.himax.hifood.domain.service.RestaurantRegistryService;
 import com.himax.hifood.api.mapper.RestaurantMapper;
 import com.himax.hifood.api.model.restaurant.RestaurantInputDto;
@@ -23,6 +26,8 @@ import java.util.List;
 @RequestMapping("/restaurants")
 public class RestaurantController {
     private RestaurantRegistryService restaurantService;
+    private KitchenRegistryService kitchenService;
+    private CityRegistryService cityService;
     private RestaurantMapper mapper;
 
     @GetMapping
@@ -37,18 +42,26 @@ public class RestaurantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestaurantOutputDto create(@RequestBody @Valid RestaurantInputDto restaurant){
-        return mapper.toDto(restaurantService.create(mapper.toDomain(restaurant)));
+    public RestaurantOutputDto create(@RequestBody @Valid RestaurantInputDto dto){
+        kitchenService.findChild(dto.getKitchenId());
+        cityService.findChildOrFail(dto.getCityId());
+        return mapper.toDto(restaurantService.create(mapper.toDomain(dto)));
     }
 
     @PutMapping("{id}")
     public RestaurantOutputDto update(@RequestBody RestaurantInputDto dto, @PathVariable Long id){
-        return mapper.toDto( restaurantService.update(mapper.toDomain(dto), id));
+        kitchenService.findChild(dto.getKitchenId());
+        cityService.findChildOrFail(dto.getCityId());
+        Restaurant existing = restaurantService.find(id);
+        Restaurant updated = mapper.toDomain(dto);
+        Restaurant restaurant = mapper.toUpdate(updated,existing);
+        return mapper.toDto( restaurantService.update(restaurant));
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable Long id){
+        restaurantService.find(id);
         restaurantService.remove(id);
     }
 }

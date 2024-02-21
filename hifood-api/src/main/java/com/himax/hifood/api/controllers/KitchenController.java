@@ -54,6 +54,7 @@ public class KitchenController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable Long id){
+        kitchenService.find(id);
         kitchenService.remove(id);
     }
 }

@@ -10,12 +10,11 @@ public interface RestaurantRepository extends CustomJpaRepository<Restaurant,Lon
 
     /*
         To solve N+1 problem.
-        Join with Kitchen because all Restaurant has one Kitcken.
-        How the relation between Restaurant and PaymentWay is ManyToMany,
-        is naturally lazy. So it's necessary put 'fetch'.
-        In relation ManyToOne is not necessary, but I use so.
-        Finally, Restaurant could not have Payment, so I must use outer join.
      */
-    @Query("from Restaurant r join fetch r.kitchen k left join fetch r.paymentWay")
+    @Query("from Restaurant r " +
+           "inner join fetch r.kitchen k " +
+           "left join fetch r.address.city c " +
+           "left join fetch c.state " +
+           "order by r.id")
     List<Restaurant> findAll();
 }

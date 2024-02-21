@@ -17,4 +17,8 @@ public class CityInputDto {
     @Valid
     @NotNull
     private StateIdDto state;
+
+    public Long getStateId(){
+        return state.getId();
+    }
 }

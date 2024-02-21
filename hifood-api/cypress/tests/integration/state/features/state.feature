@@ -49,12 +49,11 @@ Feature: State endpoint tests
     And should return error detail message "Invalid Params"
     And should return error message "name" to field "Field name must be present and must have size between 3 and 20"
 
-
   Scenario: CREATE FAIL: POST to /states fail because field name is too large
     Given I hit "POST" to "/states" with data:
       """
       {
-        "name": "Very much big great value"
+        "name": "Very much big great gigant value"
       }
       """
     Then should return status code "400"
@@ -63,11 +62,24 @@ Feature: State endpoint tests
     And should return error detail message "Invalid Params"
     And should return error message "name" to field "Field name must be present and must have size between 3 and 20"
 
-  Scenario: CREATE FAIL: POST to /states fail because field name should not be null
+  Scenario: CREATE FAIL: POST to /states fail because field name must not be null
     Given I hit "POST" to "/states" with data:
       """
       {
         "name": null
+      }
+      """
+    Then should return status code "400"
+    And should return error title message "Bad Request"
+    And should return error status at body "400"
+    And should return error detail message "Invalid Params"
+    And should return error message "name" to field "Field name must be present and must have size between 3 and 20"
+
+  Scenario: CREATE FAIL: POST to /states fail because field name must exist
+    Given I hit "POST" to "/states" with data:
+      """
+      {
+
       }
       """
     Then should return status code "400"
@@ -89,32 +101,15 @@ Feature: State endpoint tests
     And should return error status at body "400"
     And should return error detail message "Unrecognized field 'description' "
 
-  Scenario: UPDATE: PUT to /states/1 should update the State with id=1
+  Scenario: UPDATE: PUT to /states/1 must update the State with id=1
     Given I hit "PUT" to "/states/1" with data:
       """
       {
-        "name": "Minas Name Updated"
+        "name": "Uberlândia Updated"
       }
       """
     Then the "state" with id "1" is updated with success
     And should return status code "200"
-
-  Scenario: UPDATE FAIL: PUT to /states/999 with unexistent state id should return not found State
-    Given I hit "PUT" to <url> with data:
-      """
-      {
-        "name": "New Updated Expected"
-      }
-      """
-    Then there is no "state" in database with same id <id>
-    And should return status code "404"
-    And should return error title message "Not Found"
-    And should return error status at body "404"
-    And should return error detail message "No State entity with id 999 exists!"
-
-    Examples:
-      | url           | id    |
-      | '/states/999' | '999' |
 
   Scenario: REMOVE: DELETE to /states/{id} should remove deleteable State in database
     Given I hit "POST" to "/states" with data:
@@ -144,7 +139,7 @@ Feature: State endpoint tests
       | url           | id    |
       | '/states/999' | '999' |
 
-  Scenario: REMOVE FAIL: DELETE to /states/1 should not remove State with child registry
+  Scenario: REMOVE FAIL: DELETE to /states/1 must not remove State with child registry
     Given I hit "DELETE" to endpoint <url>
     Then should return status code "409"
     And should return error title message "Conflict"

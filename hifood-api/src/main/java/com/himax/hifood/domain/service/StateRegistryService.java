@@ -35,7 +35,6 @@ public class StateRegistryService {
     }
     @Transactional
     public void remove(Long id){
-        find(id);
         stateRepository.deleteOrFail(id);
     }
 }

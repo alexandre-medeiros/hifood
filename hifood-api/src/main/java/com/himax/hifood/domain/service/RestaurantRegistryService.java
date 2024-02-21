@@ -11,7 +11,6 @@ import java.util.List;
 @Component
 public class RestaurantRegistryService {
     private RestaurantRepository restaurantRepository;
-    private KitchenRegistryService kitchenService;
 
     public List<Restaurant> findAll(){
         return restaurantRepository.findAll();
@@ -23,19 +22,16 @@ public class RestaurantRegistryService {
 
     @Transactional
     public Restaurant create(Restaurant restaurant){
-        kitchenService.find(restaurant.getKitchenId());
         return restaurantRepository.save(restaurant);
     }
 
     @Transactional
-    public Restaurant update(Restaurant restaurant, Long id){
-        find(id);
+    public Restaurant update(Restaurant restaurant){
         return create(restaurant);
     }
 
     @Transactional
     public void remove(Long id){
-        find(id);
         restaurantRepository.deleteOrFail(id);
     }
 }
